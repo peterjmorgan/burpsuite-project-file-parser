@@ -9,6 +9,8 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 import burp.api.montoya.logging.Logging;
 import burp.api.montoya.proxy.Proxy;
+import burp.api.montoya.core.Annotations;
+import burp.api.montoya.core.HighlightColor;
 import burp.api.montoya.proxy.ProxyHttpRequestResponse;
 import burp.api.montoya.scanner.Scanner;
 import burp.api.montoya.scanner.audit.issues.*;
@@ -146,6 +148,21 @@ public class BurpExtender implements BurpExtension {
                     jsonResponse.add("response-headers", headersToJsonArray(response.headers()));
                     jsonResponse.addProperty("response-body", response.bodyToString());
                     jsonOutput.add("response", jsonResponse);
+                }
+
+                // Add timestamp
+                jsonOutput.addProperty("timestamp", reqRes.time().toString());
+
+                // Add annotations (comments and highlight color)
+                Annotations annotations = reqRes.annotations();
+                String notes = annotations.notes();
+                HighlightColor highlightColor = annotations.highlightColor();
+
+                if (notes != null && !notes.isEmpty()) {
+                    jsonOutput.addProperty("comment", notes);
+                }
+                if (highlightColor != null && highlightColor != HighlightColor.NONE) {
+                    jsonOutput.addProperty("highlight", highlightColor.toString());
                 }
 
                 if (!jsonOutput.entrySet().isEmpty()) {
