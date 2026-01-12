@@ -119,7 +119,8 @@ The parser outputs one JSON object per line. For proxy history with `proxyHistor
     "body": "request body if present"
   },
   "response": {
-    "response-headers": ["HTTP/1.1 200 OK", "Content-Type: application/json", ...],
+    "status-code": 200,
+    "response-headers": ["Content-Type: application/json", ...],
     "response-body": "response body content"
   },
   "timestamp": "2025-11-05T17:06:48.933Z[Etc/UTC]",

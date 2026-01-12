@@ -145,6 +145,7 @@ public class BurpExtender implements BurpExtension {
                 if (containsResponse && reqRes.response() != null) {
                     HttpResponse response = reqRes.response();
                     JsonObject jsonResponse = new JsonObject();
+                    jsonResponse.addProperty("status-code", response.statusCode());
                     jsonResponse.add("response-headers", headersToJsonArray(response.headers()));
                     jsonResponse.addProperty("response-body", response.bodyToString());
                     jsonOutput.add("response", jsonResponse);
